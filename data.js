@@ -11,7 +11,7 @@ const SITE = {
   title: "Thesis progress log",
   workingTopic:
     "Organisational justice, psychological capital and ethical workplace behaviour: the role of ethical leadership across generational cohorts in Indian organisations",
-  contact: "ganesh@skilltrain.co.in",
+  contact: "ganesh.ed2405010@iimtrichy.ac.in",
 
   currentStage: "Preparing for the pre-proposal seminar (presentation only)",
   nextMilestone: "Pre-proposal seminar — mid-December 2026",
