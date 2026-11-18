@@ -14,7 +14,7 @@ const SITE = {
   contact: "ganesh@skilltrain.co.in",
 
   currentStage: "Preparing for the pre-proposal seminar (presentation only)",
-  nextMilestone: "Pre-proposal seminar — late November 2026",
+  nextMilestone: "Pre-proposal seminar — mid-December 2026",
   focusThisWeek: [
     "Problematising the assumptions behind the CQE research questions",
     "Testing whether the behavioural ethics literature is built around preventing wrongdoing",
