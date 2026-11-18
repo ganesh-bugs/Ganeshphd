@@ -84,7 +84,7 @@ const DOCUMENTS = [
     date: "2026-08-17",
     status: "Submitted",
     note: "Version presented to the CQE panel on 17 August 2026.",
-    link: ""
+    link: "https://docs.google.com/document/d/1lAWYMtBVNedq_mNtuQztii0JQECji3aV/edit?usp=drive_link&ouid=113439754367314812808&rtpof=true&sd=true"
   },
   {
     title: "CQE Final Presentation",
@@ -93,7 +93,7 @@ const DOCUMENTS = [
     date: "2026-08-17",
     status: "Final",
     note: "Slides used at the CQE presentation.",
-    link: ""
+    link: "https://docs.google.com/presentation/d/1xaFn0eKSOnSUGO6I9nh7ZVCxyZg-UiK2/edit?usp=drive_link&ouid=113439754367314812808&rtpof=true&sd=true"
   },
   {
     title: "RBIS Conceptual Paper",
@@ -102,7 +102,7 @@ const DOCUMENTS = [
     date: "",
     status: "",
     note: "Coursework paper that informed the CQE proposal.",
-    link: ""
+    link: "https://docs.google.com/document/d/1D0QRZJac6k_GJl4e5zFfW1mW28Kp95By/edit?usp=drive_link&ouid=113439754367314812808&rtpof=true&sd=true"
   }
 ];
 
