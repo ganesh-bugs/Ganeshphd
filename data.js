@@ -78,6 +78,15 @@ const LOG = [
 // ---------------------------------------------------------------------
 const DOCUMENTS = [
   {
+    title: "Paper Summaries (reading notes)",
+    type: "Google Sheet",
+    version: "Updated daily",
+    date: "",
+    status: "Ongoing",
+    note: "Key takeaways and findings from each article I read.",
+    link: "https://docs.google.com/spreadsheets/d/1UQi9nGnDiCtfipeN7KW_epbZPnYGvISK-PN96exUy9A/edit?usp=drive_link"
+  },
+  {
     title: "CQE Research Proposal (submission copy)",
     type: "Word document",
     version: "Submission copy",
