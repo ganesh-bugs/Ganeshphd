@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Thesis progress log</title>
+<style>
+  :root{
+    --ink:#1c2430; --muted:#5b6675; --line:#e3e7ec; --bg:#fafbfc; --card:#ffffff;
+    --accent:#1f4e79; --accent-soft:#e8eff7;
+    --green:#2e7d4f; --green-soft:#e6f3ec;
+    --amber:#9a6200; --amber-soft:#fbf1df;
+    --grey-soft:#eef0f3;
+  }
+  *{box-sizing:border-box}
+  html{font-size:18px}
+  body{margin:0;font-family:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  a{color:var(--accent)}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+
+  header{background:var(--card);border-bottom:1px solid var(--line)}
+  header .wrap{padding-top:40px;padding-bottom:0}
+  .eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+  h1{font-size:2rem;margin:.2rem 0 .3rem;font-weight:650;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 .4rem}
+  .topic{font-size:.95rem;color:var(--ink);max-width:760px;margin:.6rem 0 0}
+  .updated{font-size:.85rem;color:var(--muted);margin:.8rem 0 0}
+
+  nav{display:flex;gap:4px;margin-top:28px;overflow-x:auto}
+  nav button{font:inherit;font-size:.95rem;background:none;border:0;border-bottom:3px solid transparent;padding:10px 16px;color:var(--muted);cursor:pointer;white-space:nowrap}
+  nav button:hover{color:var(--ink)}
+  nav button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+
+  main.wrap{padding-top:40px;padding-bottom:80px}
+  section[hidden]{display:none}
+  h2{font-size:1.35rem;margin:0 0 1rem;font-weight:650}
+  h3{font-size:1rem;margin:0 0 .5rem;font-weight:650}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px 28px;margin-bottom:20px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .label{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .3rem}
+  .big{font-size:1.1rem;font-weight:600;margin:0}
+  ul.clean{margin:.2rem 0 0;padding-left:1.2rem}
+  ul.clean li{margin:.25rem 0}
+
+  /* Log */
+  .entry{position:relative}
+  .entry .date{font-size:.85rem;color:var(--muted);margin:0}
+  .entry h3{font-size:1.15rem;margin:.15rem 0 1rem}
+  .entry .blk{margin-top:.9rem}
+  .entry .blk:first-of-type{margin-top:0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-bottom:.2rem}
+  .t-did{background:var(--accent-soft);color:var(--accent)}
+  .t-dec{background:var(--green-soft);color:var(--green)}
+  .t-next{background:var(--grey-soft);color:var(--muted)}
+  .t-blk{background:var(--amber-soft);color:var(--amber)}
+
+  /* Tables */
+  .tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+  .tbl th{text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+  .tbl td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl tr:last-child td{border-bottom:0}
+  .doc-title{font-weight:600}
+  .muted{color:var(--muted)}
+  .pill{display:inline-block;font-size:.75rem;padding:2px 10px;border-radius:999px;background:var(--grey-soft);color:var(--muted);white-space:nowrap}
+  .pill.Submitted,.pill.Final,.pill.Read{background:var(--green-soft);color:var(--green)}
+  .pill.Under-review,.pill.Reading{background:var(--amber-soft);color:var(--amber)}
+  .pill.Draft,.pill.To-read{background:var(--accent-soft);color:var(--accent)}
+  .btn{display:inline-block;font-size:.85rem;padding:6px 14px;border:1px solid var(--accent);border-radius:6px;text-decoration:none;white-space:nowrap}
+  .btn:hover{background:var(--accent);color:#fff}
+  .btn.off{border-color:var(--line);color:var(--muted);pointer-events:none}
+
+  /* Reading */
+  .filters{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+  .filters input,.filters select{font:inherit;font-size:.9rem;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
+  .filters input{flex:1;min-width:220px}
+  .paper{padding:18px 0;border-bottom:1px solid var(--line)}
+  .paper:last-child{border-bottom:0}
+  .paper .ref{margin:0}
+  .paper .ref a{font-weight:600;text-decoration:none}
+  .paper .ref a:hover{text-decoration:underline}
+  .paper .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:.45rem;font-size:.85rem}
+  .paper .why{margin:.4rem 0 0;font-size:.92rem;color:var(--muted)}
+  .count{font-size:.85rem;color:var(--muted);margin:0 0 .5rem}
+
+  footer{border-top:1px solid var(--line);padding:24px 0;font-size:.8rem;color:var(--muted)}
+
+  @media (max-width:680px){
+    html{font-size:16px}
+    .grid2{grid-template-columns:1fr}
+    .card{padding:20px}
+    .tbl thead{display:none}
+    .tbl tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
+    .tbl td{display:block;border:0;padding:3px 0}
+  }
+  @media print{nav,.filters{display:none} section[hidden]{display:block} body{background:#fff}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow" id="programme"></p>
+    <h1 id="siteTitle"></h1>
+    <p class="sub" id="name"></p>
+    <p class="topic"><strong>Working topic:</strong> <span id="topic"></span></p>
+    <p class="updated" id="updated"></p>
+    <nav role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="overview">Overview</button>
+      <button role="tab" data-tab="log">Daily log</button>
+      <button role="tab" data-tab="documents">Documents</button>
+      <button role="tab" data-tab="reading">Reading</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="tab-overview" role="tabpanel">
+    <div class="grid2">
+      <div class="card"><p class="label">Current stage</p><p class="big" id="stage"></p></div>
+      <div class="card"><p class="label">Next milestone</p><p class="big" id="milestone"></p></div>
+    </div>
+    <div class="card"><h3>Focus this week</h3><ul class="clean" id="focus"></ul></div>
+    <div class="card"><h3>Open questions I am working through</h3><ul class="clean" id="openq"></ul></div>
+    <div class="card" id="latestCard"><p class="label">Latest entry</p><div id="latest"></div></div>
+  </section>
+
+  <section id="tab-log" role="tabpanel" hidden>
+    <h2>Daily log</h2>
+    <div id="logList"></div>
+  </section>
+
+  <section id="tab-documents" role="tabpanel" hidden>
+    <h2>Documents</h2>
+    <p class="muted" style="margin-top:-.5rem">Files open in Google Drive. Access is limited to my guides — please sign in with the email address I shared the folder with.</p>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Document</th><th>Version</th><th>Date</th><th>Status</th><th></th></tr></thead>
+        <tbody id="docRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tab-reading" role="tabpanel" hidden>
+    <h2>Reading</h2>
+    <div class="filters">
+      <input id="q" type="search" placeholder="Search author, title or journal" aria-label="Search reading list">
+      <select id="themeSel" aria-label="Filter by theme"><option value="">All themes</option></select>
+      <select id="statusSel" aria-label="Filter by status">
+        <option value="">All statuses</option><option>To read</option><option>Reading</option><option>Read</option>
+      </select>
+    </div>
+    <p class="count" id="count"></p>
+    <div class="card" id="papers"></div>
+  </section>
+
+</main>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const fmt = d => {
+    if(!d) return "—";
+    const [y,m,day] = d.split("-").map(Number);
+    return new Date(y, m-1, day).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  };
+  const fmtLong = d => {
+    const [y,m,day] = d.split("-").map(Number);
+    return new Date(y, m-1, day).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  };
+  const li = arr => arr.map(x => `<li>${esc(x)}</li>`).join("");
+  const cls = s => esc(String(s||"").replace(/\s+/g,"-"));
+
+  // Header
+  $("programme").textContent = SITE.programme;
+  $("siteTitle").textContent = SITE.title;
+  $("name").textContent = SITE.name;
+  $("topic").textContent = SITE.workingTopic;
+  document.title = SITE.title + " — " + SITE.name;
+  const log = [...LOG].sort((a,b) => b.date.localeCompare(a.date));
+  $("updated").textContent = log.length ? "Last updated " + fmtLong(log[0].date) : "";
+
+  // Overview
+  $("stage").textContent = SITE.currentStage;
+  $("milestone").textContent = SITE.nextMilestone;
+  $("focus").innerHTML = li(SITE.focusThisWeek);
+  $("openq").innerHTML = li(SITE.openQuestions);
+
+  // Log
+  const block = (arr, label, c) => arr && arr.length
+    ? `<div class="blk"><span class="tag ${c}">${label}</span><ul class="clean">${li(arr)}</ul></div>` : "";
+  const entryHTML = e => `
+    <p class="date">${esc(fmtLong(e.date))}</p>
+    <h3>${esc(e.headline || "")}</h3>
+    ${block(e.did,"Worked on","t-did")}
+    ${block(e.decided,"Decided","t-dec")}
+    ${block(e.next,"Next","t-next")}
+    ${block(e.blockers,"Waiting on","t-blk")}`;
+  $("logList").innerHTML = log.map(e => `<article class="card entry">${entryHTML(e)}</article>`).join("")
+    || `<p class="muted">No entries yet.</p>`;
+  if(log.length) $("latest").innerHTML = entryHTML(log[0]); else $("latestCard").hidden = true;
+
+  // Documents
+  $("docRows").innerHTML = DOCUMENTS.map(d => `
+    <tr>
+      <td><div class="doc-title">${esc(d.title)}</div><div class="muted">${esc(d.type)}${d.note ? " · " + esc(d.note) : ""}</div></td>
+      <td>${esc(d.version || "—")}</td>
+      <td style="white-space:nowrap">${esc(fmt(d.date))}</td>
+      <td><span class="pill ${cls(d.status)}">${esc(d.status || "—")}</span></td>
+      <td>${d.link ? `<a class="btn" href="${esc(d.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="btn off">Coming soon</span>`}</td>
+    </tr>`).join("");
+
+  // Reading
+  const themes = [...new Set(READING.map(r => r.theme).filter(Boolean))].sort();
+  $("themeSel").innerHTML += themes.map(t => `<option>${esc(t)}</option>`).join("");
+  function renderReading(){
+    const q = $("q").value.trim().toLowerCase(), t = $("themeSel").value, s = $("statusSel").value;
+    const rows = READING
+      .filter(r => !t || r.theme === t)
+      .filter(r => !s || r.status === s)
+      .filter(r => !q || [r.authors,r.title,r.journal,r.why].join(" ").toLowerCase().includes(q))
+      .sort((a,b) => (a.authors||"").localeCompare(b.authors||""));
+    $("count").textContent = rows.length + (rows.length === 1 ? " article" : " articles");
+    $("papers").innerHTML = rows.map(r => `
+      <div class="paper">
+        <p class="ref">${esc(r.authors)} (${esc(r.year)}). ${r.link
+          ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.title)}</a>` : esc(r.title)}. <em>${esc(r.journal)}</em>.</p>
+        <div class="meta">
+          ${r.theme ? `<span class="pill">${esc(r.theme)}</span>` : ""}
+          ${r.status ? `<span class="pill ${cls(r.status)}">${esc(r.status)}</span>` : ""}
+        </div>
+        ${r.why ? `<p class="why">${esc(r.why)}</p>` : ""}
+      </div>`).join("") || `<p class="muted">No articles match.</p>`;
+  }
+  ["q","themeSel","statusSel"].forEach(id => $(id).addEventListener("input", renderReading));
+  renderReading();
+
+  // Footer
+  $("foot").innerHTML = `${esc(SITE.name)} · <a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>`;
+
+  // Tabs (URL hash keeps the selected tab, e.g. …/#reading)
+  const tabs = [...document.querySelectorAll("nav button")];
+  function show(name){
+    if(!document.getElementById("tab-"+name)) name = "overview";
+    tabs.forEach(b => b.setAttribute("aria-selected", b.dataset.tab === name));
+    document.querySelectorAll("main section").forEach(s => s.hidden = s.id !== "tab-"+name);
+  }
+  tabs.forEach(b => b.addEventListener("click", () => { history.replaceState(null,"","#"+b.dataset.tab); show(b.dataset.tab); }));
+  show(location.hash.slice(1));
+  window.addEventListener("hashchange", () => { show(location.hash.slice(1)); });
+})();
+</script>
+</body>
+</html>
