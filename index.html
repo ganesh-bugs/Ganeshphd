@@ -53,6 +53,7 @@
   .tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-bottom:.2rem}
   .t-did{background:var(--accent-soft);color:var(--accent)}
   .t-dec{background:var(--green-soft);color:var(--green)}
+  .t-take{background:#f1ecf8;color:#5b3f8c}
   .t-next{background:var(--grey-soft);color:var(--muted)}
   .t-blk{background:var(--amber-soft);color:var(--amber)}
 
@@ -123,7 +124,6 @@
       <div class="card"><p class="label">Next milestone</p><p class="big" id="milestone"></p></div>
     </div>
     <div class="card"><h3>Focus this week</h3><ul class="clean" id="focus"></ul></div>
-    <div class="card"><h3>Open questions I am working through</h3><ul class="clean" id="openq"></ul></div>
     <div class="card" id="latestCard"><p class="label">Latest entry</p><div id="latest"></div></div>
   </section>
 
@@ -147,10 +147,7 @@
     <h2>Reading</h2>
     <div class="filters">
       <input id="q" type="search" placeholder="Search author, title or journal" aria-label="Search reading list">
-      <select id="themeSel" aria-label="Filter by theme"><option value="">All themes</option></select>
-      <select id="statusSel" aria-label="Filter by status">
-        <option value="">All statuses</option><option>To read</option><option>Reading</option><option>Read</option>
-      </select>
+      <select id="themeSel" aria-label="Filter by type"><option value="">All types</option></select>
     </div>
     <p class="count" id="count"></p>
     <div class="card" id="papers"></div>
@@ -190,7 +187,6 @@
   $("stage").textContent = SITE.currentStage;
   $("milestone").textContent = SITE.nextMilestone;
   $("focus").innerHTML = li(SITE.focusThisWeek);
-  $("openq").innerHTML = li(SITE.openQuestions);
 
   // Log
   const block = (arr, label, c) => arr && arr.length
@@ -199,6 +195,7 @@
     <p class="date">${esc(fmtLong(e.date))}</p>
     <h3>${esc(e.headline || "")}</h3>
     ${block(e.did,"Worked on","t-did")}
+    ${block(e.takeaways,"Takeaways","t-take")}
     ${block(e.decided,"Decided","t-dec")}
     ${block(e.next,"Next","t-next")}
     ${block(e.blockers,"Waiting on","t-blk")}`;
@@ -216,29 +213,32 @@
       <td>${d.link ? `<a class="btn" href="${esc(d.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="btn off">Coming soon</span>`}</td>
     </tr>`).join("");
 
-  // Reading
-  const themes = [...new Set(READING.map(r => r.theme).filter(Boolean))].sort();
-  $("themeSel").innerHTML += themes.map(t => `<option>${esc(t)}</option>`).join("");
+  // Reading — one entry per article (de-duplicated by link, then title)
+  const seen = new Set();
+  const papers = READING.filter(r => {
+    const key = (r.link || r.title || "").toLowerCase().trim();
+    if(seen.has(key)) return false; seen.add(key); return true;
+  });
+  const types = [...new Set(papers.map(r => r.type).filter(Boolean))].sort();
+  $("themeSel").innerHTML += types.map(t => `<option>${esc(t)}</option>`).join("");
   function renderReading(){
-    const q = $("q").value.trim().toLowerCase(), t = $("themeSel").value, s = $("statusSel").value;
-    const rows = READING
-      .filter(r => !t || r.theme === t)
-      .filter(r => !s || r.status === s)
-      .filter(r => !q || [r.authors,r.title,r.journal,r.why].join(" ").toLowerCase().includes(q))
-      .sort((a,b) => (a.authors||"").localeCompare(b.authors||""));
+    const q = $("q").value.trim().toLowerCase(), t = $("themeSel").value;
+    const rows = papers
+      .filter(r => !t || r.type === t)
+      .filter(r => !q || [r.authors,r.title,r.journal].join(" ").toLowerCase().includes(q))
+      .sort((a,b) => (b.read||"").localeCompare(a.read||"") || (a.authors||"").localeCompare(b.authors||""));
     $("count").textContent = rows.length + (rows.length === 1 ? " article" : " articles");
     $("papers").innerHTML = rows.map(r => `
       <div class="paper">
         <p class="ref">${esc(r.authors)} (${esc(r.year)}). ${r.link
           ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.title)}</a>` : esc(r.title)}. <em>${esc(r.journal)}</em>.</p>
         <div class="meta">
-          ${r.theme ? `<span class="pill">${esc(r.theme)}</span>` : ""}
-          ${r.status ? `<span class="pill ${cls(r.status)}">${esc(r.status)}</span>` : ""}
+          ${r.type ? `<span class="pill">${esc(r.type)}</span>` : ""}
+          ${r.read ? `<span class="muted">Read ${esc(fmt(r.read))}</span>` : ""}
         </div>
-        ${r.why ? `<p class="why">${esc(r.why)}</p>` : ""}
       </div>`).join("") || `<p class="muted">No articles match.</p>`;
   }
-  ["q","themeSel","statusSel"].forEach(id => $(id).addEventListener("input", renderReading));
+  ["q","themeSel"].forEach(id => $(id).addEventListener("input", renderReading));
   renderReading();
 
   // Footer

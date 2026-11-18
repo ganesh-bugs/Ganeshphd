@@ -1,8 +1,8 @@
 // =====================================================================
 //  PhD PROGRESS PAGE — CONTENT FILE
-//  This is the only file you need to edit for daily updates.
-//  Add a new log entry at the TOP of the "log" list each day.
-//  Keep the punctuation exactly as in the examples (quotes, commas).
+//  Source: claude/daily-log.md (Ganesh's own work only; no guide remarks).
+//  Reading list = only articles recorded as read in the daily log.
+//  Add a new log entry at the TOP of the "LOG" list each day.
 // =====================================================================
 
 const SITE = {
@@ -13,67 +13,68 @@ const SITE = {
     "Organisational justice, psychological capital and ethical workplace behaviour: the role of ethical leadership across generational cohorts in Indian organisations",
   contact: "ganesh@skilltrain.co.in",
 
-  // Shown on the Overview tab
   currentStage: "Preparing for the pre-proposal seminar (presentation only)",
   nextMilestone: "Pre-proposal seminar — late November 2026",
   focusThisWeek: [
-    "Problematising the core assumption behind ethics management in organisations",
-    "Deciding how the thesis treats routine versus extraordinary ethical behaviour",
-    "Structuring a ~27-minute presentation (13–14 slides) with time for Q&A"
-  ],
-  openQuestions: [
-    "Thesis architecture: single study or multi-study, and where ethical leadership sits as the common thread",
-    "Where the Gen X / Y / Z comparison sits in the thesis",
-    "Overall justice versus the four justice dimensions",
-    "Partial versus full mediation through psychological capital",
-    "Choice of ethical workplace behaviour measure"
+    "Problematising the assumptions behind the CQE research questions",
+    "Testing whether the behavioural ethics literature is built around preventing wrongdoing",
+    "Deciding how the thesis treats routine versus extraordinary ethical behaviour"
   ]
 };
 
 // ---------------------------------------------------------------------
 //  DAILY LOG — newest first. Date format: "YYYY-MM-DD".
-//  Fields: date, did (list), decided (list), next (list), blockers (list)
-//  Any list can be left empty: []
+//  Fields: headline, did, takeaways, decided, next, blockers (all lists)
 // ---------------------------------------------------------------------
 const LOG = [
   {
     date: "2026-11-18",
-    headline: "Problematisation: routine vs extraordinary ethical behaviour",
+    headline: "Is the behavioural ethics literature built around wrongdoing?",
     did: [
-      "Continued work on the core assumption to problematise for the seminar",
-      "Read Treviño, den Nieuwenboer & Kish-Gephart (2014) on the distinction between routine and extraordinary ethical behaviour",
-      "Explored whether the thesis should differentiate routine from extraordinary ethical workplace behaviour (not yet decided)",
-      "Set up this progress page for my guides"
+      "Read four articles: Treviño, den Nieuwenboer & Kish-Gephart (2014); Kish-Gephart, Harrison & Treviño (2010); Weaver & Treviño (1999); Tenbrunsel & Messick (1999)",
+      "Wrote one-page notes on all four papers",
+      "Built an antecedent tally of 28 antecedents (source, antecedent, level, outcome studied, form of ethical behaviour, evidence)"
     ],
-    decided: [],
+    takeaways: [
+      "All four articles cover both ethical and unethical behaviour, but most focus on reducing unethical behaviour. Weaver & Treviño (1999) is the exception, with mostly positive outcomes.",
+      "Constructs that may encourage ethical behaviour: at the individual level, idealism, moral conation, moral attentiveness and moral identity; at the organisational level, ethical climate and ethical culture.",
+      "The assumption that ethics is a baseline obligation stays, but managing deviations alone is not enough: compliance-oriented programmes appear to have less impact than values-oriented ones.",
+      "Ethical impulse (automatic response) versus ethical calculus (deliberation) may explain why one person speaks up when others do not; moral conation is another possible explanation."
+    ],
+    decided: [
+      "Tentative: differentiate routine from extraordinary ethical behaviour in the thesis — a distinction not made in the CQE proposal or the RBIS paper"
+    ],
     next: [
-      "Test the willingness-versus-capacity argument as the core line of reasoning",
-      "Upload current documents to the shared folder"
+      "Read Hannah, Avolio & May (2011), Moore & Gino (2015) and Luthans (2002)",
+      "Draft the first version of the problematization statement"
     ],
     blockers: []
   },
   {
     date: "2026-11-17",
-    headline: "Day 1 of seminar preparation",
+    headline: "Faculty feedback, the problematization method and candidate assumptions",
     did: [
-      "Started the 10-day preparation plan for the pre-proposal seminar",
-      "Reviewed faculty feedback received on the CQE proposal",
-      "Identified a candidate assumption to problematise: ethics treated as a baseline obligation, so only deviation needs managing"
+      "Reviewed the 15-point faculty feedback on the CQE proposal and started a 10-day plan for the pre-proposal seminar",
+      "Read Sandberg & Alvesson (2011) and Alvesson & Sandberg (2011) on gap-spotting versus problematization, and made notes",
+      "Classified all four CQE research gaps as neglect gaps (under-researched areas)",
+      "Drafted nine candidate assumptions for problematization",
+      "Listed two examples of ethical behaviour that penalties cannot produce: claiming only what was actually spent although policy allows more, and calling out interviewer bias so the organisation does not lose a good candidate"
+    ],
+    takeaways: [
+      "Organisations mostly penalise unethical behaviour and hardly encourage ethical behaviour.",
+      "Underlying assumption: all employees are expected to be ethical, so there is no need to encourage ethical conduct; systems that discourage unethical behaviour deter those inclined to act unethically, while ethical employees remain ethical. In short, ethics as a baseline obligation.",
+      "In the interviewer-bias example, the person spoke up out of fairness to the candidate, because a good candidate benefits the organisation, and to avoid reputational harm if the candidate spoke about the bias."
     ],
     decided: [],
-    next: [
-      "Check the assumption against the compliance- versus values-orientation literature"
-    ],
+    next: [],
     blockers: [
-      "Awaiting feedback from the remaining guides"
+      "Feedback from the remaining guides"
     ]
   }
 ];
 
 // ---------------------------------------------------------------------
 //  DOCUMENTS — paste the Google Drive link for each file in "link".
-//  Leave link as "" until the file is uploaded.
-//  status: "Draft" | "Under review" | "Submitted" | "Final"
 // ---------------------------------------------------------------------
 const DOCUMENTS = [
   {
@@ -106,10 +107,8 @@ const DOCUMENTS = [
 ];
 
 // ---------------------------------------------------------------------
-//  READING LIST
-//  status: "To read" | "Reading" | "Read"   (leave "" if not set)
-//  theme: short label used for filtering
-//  why: one line on what claim or idea this paper supports in my work
+//  READING — only articles recorded as read in the daily log.
+//  One entry per article; "read" is the date it was first read.
 // ---------------------------------------------------------------------
 const READING = [
   {
@@ -118,19 +117,26 @@ const READING = [
     title: "(Un)ethical behavior in organizations",
     journal: "Annual Review of Psychology, 65, 635–660",
     link: "https://doi.org/10.1146/annurev-psych-113011-143745",
-    theme: "Behavioural ethics",
-    status: "",
-    why: "Distinction between routine and extraordinary ethical behaviour."
+    type: "Review",
+    read: "2026-11-18"
+  },
+  {
+    authors: "Kish-Gephart, J. J., Harrison, D. A., & Treviño, L. K.",
+    year: 2010,
+    title: "Bad apples, bad cases, and bad barrels: Meta-analytic evidence about sources of unethical decisions at work",
+    journal: "Journal of Applied Psychology, 95(1), 1–31",
+    link: "https://doi.org/10.1037/a0017103",
+    type: "Meta-analysis",
+    read: "2026-11-18"
   },
   {
     authors: "Weaver, G. R., & Treviño, L. K.",
     year: 1999,
     title: "Compliance and values oriented ethics programs: Influences on employees' attitudes and behavior",
     journal: "Business Ethics Quarterly, 9(2), 315–335",
-    link: "https://www.cambridge.org/core/journals/business-ethics-quarterly/article/compliance-and-values-oriented-ethics-programs-influenceson-employees-attitudes-and-behavior/7CC7F328B583F76C46D2EA9BFB5D2B3A",
-    theme: "Ethics management",
-    status: "",
-    why: "Values orientation contributes more to outcomes than compliance orientation."
+    link: "https://doi.org/10.2307/3857477",
+    type: "Field survey",
+    read: "2026-11-18"
   },
   {
     authors: "Tenbrunsel, A. E., & Messick, D. M.",
@@ -138,78 +144,25 @@ const READING = [
     title: "Sanctioning systems, decision frames, and cooperation",
     journal: "Administrative Science Quarterly, 44(4), 684–707",
     link: "https://doi.org/10.2307/2667052",
-    theme: "Ethics management",
-    status: "",
-    why: "Side effects of sanctioning systems on how people frame ethical decisions."
+    type: "Experiments",
+    read: "2026-11-18"
   },
   {
-    authors: "Hannah, S. T., Avolio, B. J., & May, D. R.",
+    authors: "Sandberg, J., & Alvesson, M.",
     year: 2011,
-    title: "Moral maturation and moral conation: A capacity approach to explaining moral thought and action",
-    journal: "Academy of Management Review, 36(4), 663–685",
-    link: "https://doi.org/10.5465/amr.2010.0128",
-    theme: "Moral capacity",
-    status: "",
-    why: "Moral conation as an alternative to PsyCap for explaining ethical action."
+    title: "Ways of constructing research questions: Gap-spotting or problematization?",
+    journal: "Organization, 18(1), 23–44",
+    link: "https://doi.org/10.1177/1350508410372151",
+    type: "Review",
+    read: "2026-11-17"
   },
   {
-    authors: "Colquitt, J. A.",
-    year: 2001,
-    title: "On the dimensionality of organizational justice: A construct validation of a measure",
-    journal: "Journal of Applied Psychology, 86(3), 386–400",
-    link: "https://doi.org/10.1037/0021-9010.86.3.386",
-    theme: "Organisational justice",
-    status: "",
-    why: "Four justice dimensions and their measurement."
-  },
-  {
-    authors: "Ambrose, M. L., & Schminke, M.",
-    year: 2009,
-    title: "The role of overall justice judgments in organizational justice research: A test of mediation",
-    journal: "Journal of Applied Psychology, 94(2), 491–500",
-    link: "https://doi.org/10.1037/a0013203",
-    theme: "Organisational justice",
-    status: "",
-    why: "Overall justice judgments versus specific justice facets."
-  },
-  {
-    authors: "Luthans, F., Avolio, B. J., Avey, J. B., & Norman, S. M.",
-    year: 2007,
-    title: "Positive psychological capital: Measurement and relationship with performance and satisfaction",
-    journal: "Personnel Psychology, 60(3), 541–572",
-    link: "https://doi.org/10.1111/j.1744-6570.2007.00083.x",
-    theme: "Psychological capital",
-    status: "",
-    why: "PsyCap construct and its measurement."
-  },
-  {
-    authors: "Brown, M. E., Treviño, L. K., & Harrison, D. A.",
-    year: 2005,
-    title: "Ethical leadership: A social learning perspective for construct development and testing",
-    journal: "Organizational Behavior and Human Decision Processes, 97(2), 117–134",
-    link: "https://doi.org/10.1016/j.obhdp.2005.03.002",
-    theme: "Ethical leadership",
-    status: "",
-    why: "Ethical leadership construct, scale and social learning basis."
-  },
-  {
-    authors: "Maxwell, S. E., & Cole, D. A.",
-    year: 2007,
-    title: "Bias in cross-sectional analyses of longitudinal mediation",
-    journal: "Psychological Methods, 12(1), 23–44",
-    link: "https://doi.org/10.1037/1082-989X.12.1.23",
-    theme: "Methods",
-    status: "",
-    why: "Limits of inferring mediation from cross-sectional or short-lag designs."
-  },
-  {
-    authors: "Rudolph, C. W., Rauvola, R. S., Costanza, D. P., & Zacher, H.",
-    year: 2021,
-    title: "Generations and generational differences: Debunking myths in organizational science and practice and paving new paths forward",
-    journal: "Journal of Business and Psychology, 36(6), 945–967",
-    link: "https://doi.org/10.1007/s10869-020-09715-2",
-    theme: "Generational cohorts",
-    status: "",
-    why: "Critique of generational categories; alternative explanations to consider."
+    authors: "Alvesson, M., & Sandberg, J.",
+    year: 2011,
+    title: "Generating research questions through problematization",
+    journal: "Academy of Management Review, 36(2), 247–271",
+    link: "https://doi.org/10.5465/amr.2011.59330882",
+    type: "Conceptual",
+    read: "2026-11-17"
   }
 ];
