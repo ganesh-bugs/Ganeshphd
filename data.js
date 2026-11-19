@@ -28,6 +28,29 @@ const SITE = {
 // ---------------------------------------------------------------------
 const LOG = [
   {
+    date: "2026-11-19",
+    headline: "The positive lens: PsyCap versus ethics-specific moral capacities",
+    did: [
+      "Read Hannah, Avolio & May (2011) on moral maturation and moral conation",
+      "Created a new tab in my reading notes comparing six moral capacities — moral courage, moral efficacy and moral ownership (conation); moral complexity, metacognitive ability and moral identity (maturation) — on definitions, developability, overlaps, potential for unethical use and propositions",
+      "Partly recoded the antecedent tally (ethical leadership and moral conation now coded as proactive/extraordinary) and added a summary"
+    ],
+    takeaways: [
+      "All six moral capacities are described as malleable, developable and domain-specific.",
+      "The three conation components work in tandem: each is necessary but not sufficient (ownership and efficacy without courage may still not produce action).",
+      "Moral courage can be bolstered by authentic or ethical leaders who act as moral exemplars and create transparent climates, and also by training.",
+      "Moral efficacy is specific to the moral domain and distinct from a person's efficacy in other domains.",
+      "Moral ownership can be developed through language, responsibility and reward/control systems, which must be aligned with moral action to avoid pressure towards unethical compliance."
+    ],
+    decided: [],
+    next: [
+      "Read Luthans et al. (2007) and Luthans (2002) to complete the PsyCap side of the comparison",
+      "Read Suddaby (2010) and Kaptein (2008) and build a construct-boundary table",
+      "Write assumption v1 (carried over from Day 2); Moore & Gino (2015) moved to Day 5"
+    ],
+    blockers: []
+  },
+  {
     date: "2026-11-18",
     headline: "Is the behavioural ethics literature built around wrongdoing?",
     did: [
@@ -120,6 +143,15 @@ const DOCUMENTS = [
 //  One entry per article; "read" is the date it was first read.
 // ---------------------------------------------------------------------
 const READING = [
+  {
+    authors: "Hannah, S. T., Avolio, B. J., & May, D. R.",
+    year: 2011,
+    title: "Moral maturation and moral conation: A capacity approach to explaining moral thought and action",
+    journal: "Academy of Management Review, 36(4), 663–685",
+    link: "https://doi.org/10.5465/amr.2010.0128",
+    type: "Conceptual",
+    read: "2026-11-19"
+  },
   {
     authors: "Treviño, L. K., den Nieuwenboer, N. A., & Kish-Gephart, J. J.",
     year: 2014,
