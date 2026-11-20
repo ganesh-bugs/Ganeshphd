@@ -87,6 +87,8 @@
   .cmt .who{font-size:.85rem;font-weight:600;margin:0}
   .cmt .who span{font-weight:400;color:var(--muted)}
   .cmt p.body{margin:.3rem 0 0;white-space:pre-wrap}
+  .reply{margin:.8rem 0 0 1.2rem;padding:.6rem 0 0 .9rem;border-left:3px solid var(--accent-soft)}
+  .reply .who{color:var(--accent)}
   .cmtbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
   .addc{margin-top:1rem}
   .addc summary{list-style:none;display:inline-block;cursor:pointer}
@@ -275,7 +277,7 @@
     const embed = `${COMMENTS.formUrl}?embedded=true&usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
     const body = commentsState === "loading" ? `<p class="muted">Loading comments…</p>`
       : commentsState === "error" ? `<p class="muted">Comments could not be loaded right now.</p>`
-      : list.length ? list.map(c => `<div class="cmt"><p class="who">${esc(c.name)}${c.takeaway ? ` <span>· on ${esc(c.takeaway)}</span>` : ""}${c.when ? ` <span>· ${esc(c.when)}</span>` : ""}</p><p class="body">${esc(c.comment)}</p></div>`).join("")
+      : list.length ? list.map(c => `<div class="cmt"><p class="who">${esc(c.name)}${c.takeaway ? ` <span>· on ${esc(c.takeaway)}</span>` : ""}${c.when ? ` <span>· ${esc(c.when)}</span>` : ""}</p><p class="body">${esc(c.comment)}</p>${c.reply ? `<div class="reply"><p class="who">Ganesh's reply</p><p class="body">${esc(c.reply)}</p></div>` : ""}</div>`).join("")
       : `<p class="muted">No comments yet.</p>`;
     return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span></div>${body}
       <details class="addc" data-embed="${esc(embed)}">
@@ -294,10 +296,10 @@
       if(!r.ok) throw new Error(r.status);
       const rows = parseCSV(await r.text()).slice(1);
       comments = {};
-      rows.forEach(([ts,date,name,takeaway,comment]) => {
+      rows.forEach(([ts,date,name,takeaway,comment,reply]) => {
         if(!comment || !comment.trim()) return;
         const key = normDate(date);
-        (comments[key] = comments[key] || []).push({ when: ts ? fmt(ts.slice(0,10)) : "", name: name || "Guide", takeaway, comment });
+        (comments[key] = comments[key] || []).push({ when: ts ? fmt(ts.slice(0,10)) : "", name: name || "Guide", takeaway, comment, reply: (reply||"").trim() });
       });
       commentsState = "ok";
     }catch(err){ commentsState = "error"; }
