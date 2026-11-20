@@ -93,6 +93,7 @@
   .addc summary::-webkit-details-marker{display:none}
   .addc[open] summary{background:var(--accent);color:#fff}
   .small{font-size:.82rem;margin:.6rem 0}
+  .note{background:var(--amber-soft);color:#6b4500;border-radius:6px;padding:8px 12px}
   .formwrap iframe{width:100%;height:1050px;border:1px solid var(--line);border-radius:8px;background:#fff}
   .calgrid button.hasc{box-shadow:inset 0 -3px 0 #e07a3f}
 
@@ -279,8 +280,10 @@
     return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span></div>${body}
       <details class="addc" data-embed="${esc(embed)}">
         <summary class="btn">Add a comment</summary>
-        <p class="muted small">Sign in with your IIM Trichy account. Your comment appears here within a few minutes of submitting.
+        <p class="muted small">Sign in with your IIM Trichy account. If asked, click <strong>Allow cookies</strong>.
           Form not loading? <a href="${esc(link)}" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
+        <p class="note small"><strong>After submitting:</strong> your comment takes a few minutes to appear.
+          <strong>Refresh this page</strong> to see it — please don't submit the same comment again.</p>
         <div class="formwrap"></div>
       </details></div>`;
   }
