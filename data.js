@@ -38,6 +38,26 @@ const COMMENTS = {
 // ---------------------------------------------------------------------
 const LOG = [
   {
+    date: "2026-11-20",
+    headline: "The nature of PsyCap: completing the capacity comparison",
+    did: [
+      "Read Luthans, Avolio, Avey & Norman (2007) and Luthans (2002)",
+      "Filled in the PsyCap rows (hope, efficacy, resilience, optimism) of my capacity comparison: definitions, state-like status, overlaps with moral conation, and whether each could support unethical action",
+      "Reworked the seminar preparation plan: 2–3 hours a day, deck ready by 3 December, 4–10 December kept for catch-up and feedback; practitioner conversations moved to after the seminar"
+    ],
+    takeaways: [
+      "All four PsyCap components are state-like; their workplace outcomes are performance, satisfaction, commitment, retention, health and happiness.",
+      "Overlaps with moral conation: hope's agency may resemble moral ownership's responsibility; PsyCap efficacy and moral efficacy share the same core definition but differ in target (a work task versus the moral domain), and moral efficacy also includes persistence in the face of moral adversity; resilience overlaps partly with moral efficacy's persistence and with moral courage.",
+      "My view: high efficacy, resilience and optimism could each support unethical action — for example, confidence in getting away with it, confidence in handling any consequence, or the belief that outcomes will be positive."
+    ],
+    decided: [],
+    next: [
+      "Close read of Kaptein (2008)",
+      "Draft assumption v1 and problematization statement v1"
+    ],
+    blockers: []
+  },
+  {
     date: "2026-11-19",
     headline: "The positive lens: PsyCap versus ethics-specific moral capacities",
     did: [
@@ -153,6 +173,24 @@ const DOCUMENTS = [
 //  One entry per article; "read" is the date it was first read.
 // ---------------------------------------------------------------------
 const READING = [
+  {
+    authors: "Luthans, F., Avolio, B. J., Avey, J. B., & Norman, S. M.",
+    year: 2007,
+    title: "Positive psychological capital: Measurement and relationship with performance and satisfaction",
+    journal: "Personnel Psychology, 60(3), 541–572",
+    link: "https://doi.org/10.1111/j.1744-6570.2007.00083.x",
+    type: "Empirical",
+    read: "2026-11-20"
+  },
+  {
+    authors: "Luthans, F.",
+    year: 2002,
+    title: "The need for and meaning of positive organizational behavior",
+    journal: "Journal of Organizational Behavior, 23(6), 695–706",
+    link: "https://doi.org/10.1002/job.165",
+    type: "Conceptual",
+    read: "2026-11-20"
+  },
   {
     authors: "Hannah, S. T., Avolio, B. J., & May, D. R.",
     year: 2011,
