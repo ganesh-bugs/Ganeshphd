@@ -19,15 +19,16 @@
   a{color:var(--accent)}
   .wrap{max-width:920px;margin:0 auto;padding:0 24px}
 
-  header{background:var(--card);border-bottom:1px solid var(--line)}
-  header .wrap{padding-top:40px;padding-bottom:0}
+  header{background:var(--card)}
+  header .wrap{padding-top:40px;padding-bottom:20px}
   .eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
   h1{font-size:2rem;margin:.2rem 0 .3rem;font-weight:650;letter-spacing:-.01em}
   .sub{color:var(--muted);margin:0 0 .4rem}
   .topic{font-size:.95rem;color:var(--ink);max-width:760px;margin:.6rem 0 0}
   .updated{font-size:.85rem;color:var(--muted);margin:.8rem 0 0}
 
-  nav{display:flex;gap:4px;margin-top:28px;overflow-x:auto}
+  .tabbar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+  nav{display:flex;gap:4px;overflow-x:auto}
   nav button{font:inherit;font-size:.95rem;background:none;border:0;border-bottom:3px solid transparent;padding:10px 16px;color:var(--muted);cursor:pointer;white-space:nowrap}
   nav button:hover{color:var(--ink)}
   nav button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
@@ -131,11 +132,39 @@
 
   @media (max-width:680px){
     html{font-size:16px}
-    .grid2{grid-template-columns:1fr}
-    .card{padding:20px}
+    .wrap{padding:0 16px}
+    header .wrap{padding-top:20px;padding-bottom:14px}
+    .eyebrow{font-size:.68rem}
+    h1{font-size:1.55rem}
+    .sub{margin-bottom:.2rem}
+    .topic{font-size:.88rem;margin-top:.4rem}
+    .updated{font-size:.78rem;margin-top:.5rem}
+    nav{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    nav button{padding:12px 2px;font-size:.88rem;text-align:center}
+    main.wrap{padding-top:22px;padding-bottom:56px}
+    h2{font-size:1.2rem}
+    .grid2{grid-template-columns:1fr;gap:12px}
+    .grid2 .card{margin-bottom:0}
+    .card{padding:18px 16px;margin-bottom:14px}
+    .lognav{gap:8px}
+    .navbtn{padding:8px 10px;font-size:.82rem}
+    .datebtn{padding:8px 10px;font-size:.88rem}
+    .cal{width:min(300px,calc(100vw - 32px))}
+    .calgrid button,.calgrid span.d{padding:9px 0}
     .tbl thead{display:none}
-    .tbl tr{display:block;padding:12px 0;border-bottom:1px solid var(--line)}
-    .tbl td{display:block;border:0;padding:3px 0}
+    .tbl tr{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:14px 0;border-bottom:1px solid var(--line)}
+    .tbl tr:last-child{border-bottom:0}
+    .tbl td{display:block;border:0;padding:0}
+    .tbl td:first-child{flex:1 0 100%}
+    .tbl td.c-ver,.tbl td.c-date{font-size:.85rem;color:var(--muted)}
+    .tbl td.c-ver:not(.empty)+td.c-date:not(.empty)::before{content:"· "}
+    .tbl td.empty{display:none}
+    .tbl td.c-open{margin-left:auto}
+    .filters{flex-direction:column;gap:10px}
+    .filters input,.filters select{width:100%;min-width:0}
+    .cmt{padding:10px 12px}
+    .reply{margin-left:.4rem}
+    .formwrap iframe{height:1150px}
   }
   @media print{nav,.filters{display:none} section[hidden]{display:block} body{background:#fff}}
 </style>
@@ -149,14 +178,16 @@
     <p class="sub" id="name"></p>
     <p class="topic"><strong>Working topic:</strong> <span id="topic"></span></p>
     <p class="updated" id="updated"></p>
+  </div>
+</header>
+<div class="tabbar"><div class="wrap">
     <nav role="tablist" aria-label="Sections">
       <button role="tab" data-tab="overview">Overview</button>
       <button role="tab" data-tab="log">Daily log</button>
       <button role="tab" data-tab="documents">Documents</button>
       <button role="tab" data-tab="reading">Reading</button>
     </nav>
-  </div>
-</header>
+</div></div>
 
 <main class="wrap">
 
@@ -387,10 +418,10 @@
   $("docRows").innerHTML = DOCUMENTS.map(d => `
     <tr>
       <td><div class="doc-title">${esc(d.title)}</div><div class="muted">${esc(d.type)}${d.note ? " · " + esc(d.note) : ""}</div></td>
-      <td>${esc(d.version || "—")}</td>
-      <td style="white-space:nowrap">${esc(fmt(d.date))}</td>
-      <td><span class="pill ${cls(d.status)}">${esc(d.status || "—")}</span></td>
-      <td>${d.link ? `<a class="btn" href="${esc(d.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="btn off">Coming soon</span>`}</td>
+      <td class="c-ver${d.version ? "" : " empty"}">${esc(d.version || "—")}</td>
+      <td class="c-date${d.date ? "" : " empty"}" style="white-space:nowrap">${esc(fmt(d.date))}</td>
+      <td class="c-status${d.status ? "" : " empty"}"><span class="pill ${cls(d.status)}">${esc(d.status || "—")}</span></td>
+      <td class="c-open">${d.link ? `<a class="btn" href="${esc(d.link)}" target="_blank" rel="noopener">Open</a>` : `<span class="btn off">Coming soon</span>`}</td>
     </tr>`).join("");
 
   // Reading — one entry per article (de-duplicated by link, then title)
