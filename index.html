@@ -79,6 +79,17 @@
   .calnote{font-size:.72rem;color:var(--muted);margin:10px 0 0;text-align:center}
   @media (max-width:680px){.navbtn{padding:8px 10px;font-size:.82rem}}
 
+  /* Guide comments */
+  ol.clean{margin:.2rem 0 0;padding-left:1.4rem} ol.clean li{margin:.25rem 0}
+  .comments{margin-top:1.4rem;padding-top:1.2rem;border-top:1px dashed var(--line)}
+  .t-gc{background:#fdeee6;color:#a24a1b}
+  .cmt{background:#fffaf6;border:1px solid #f3e3d8;border-radius:8px;padding:12px 16px;margin:.6rem 0}
+  .cmt .who{font-size:.85rem;font-weight:600;margin:0}
+  .cmt .who span{font-weight:400;color:var(--muted)}
+  .cmt p.body{margin:.3rem 0 0;white-space:pre-wrap}
+  .cmtbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .calgrid button.hasc{box-shadow:inset 0 -3px 0 #e07a3f}
+
   /* Tables */
   .tbl{width:100%;border-collapse:collapse;font-size:.92rem}
   .tbl th{text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
@@ -165,7 +176,7 @@
             <button class="calnav" id="calNext" aria-label="Next month">&rsaquo;</button>
           </div>
           <div class="calgrid" id="calGrid"></div>
-          <p class="calnote">Highlighted dates have an entry</p>
+          <p class="calnote">Highlighted dates have an entry · orange underline = guide comments</p>
         </div>
       </div>
       <button class="navbtn" id="nextBtn" aria-label="Next day">Next &rarr;</button>
@@ -229,17 +240,67 @@
   $("milestone").textContent = SITE.nextMilestone;
   $("focus").innerHTML = li(SITE.focusThisWeek);
 
+  // Guide comments: loaded from the published sheet; shown under the matching day
+  let comments = {}, commentsState = "loading";
+  function parseCSV(t){
+    const rows=[]; let row=[], f="", q=false;
+    for(let i=0;i<t.length;i++){
+      const c=t[i];
+      if(q){ if(c==='"'){ if(t[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+      else if(c==='"') q=true;
+      else if(c===','){ row.push(f); f=""; }
+      else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=""; }
+      else f+=c;
+    }
+    if(f!==""||row.length){ row.push(f); rows.push(row); }
+    return rows;
+  }
+  function normDate(d){
+    d=(d||"").trim(); let m;
+    if((m=d.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return `${m[1]}-${m[2].padStart(2,"0")}-${m[3].padStart(2,"0")}`;
+    if((m=d.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/))) return `${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`;
+    return d;
+  }
+  function commentsHTML(date){
+    if(typeof COMMENTS === "undefined") return "";
+    const list = comments[date] || [];
+    const link = `${COMMENTS.formUrl}?usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
+    const body = commentsState === "loading" ? `<p class="muted">Loading comments…</p>`
+      : commentsState === "error" ? `<p class="muted">Comments could not be loaded right now.</p>`
+      : list.length ? list.map(c => `<div class="cmt"><p class="who">${esc(c.name)}${c.takeaway ? ` <span>· on ${esc(c.takeaway)}</span>` : ""}${c.when ? ` <span>· ${esc(c.when)}</span>` : ""}</p><p class="body">${esc(c.comment)}</p></div>`).join("")
+      : `<p class="muted">No comments yet.</p>`;
+    return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span>
+      <a class="btn" href="${esc(link)}" target="_blank" rel="noopener">Comment on this day</a></div>${body}</div>`;
+  }
+  async function loadComments(){
+    if(typeof COMMENTS === "undefined") return;
+    try{
+      const r = await fetch(COMMENTS.csvUrl + "&t=" + Date.now());
+      if(!r.ok) throw new Error(r.status);
+      const rows = parseCSV(await r.text()).slice(1);
+      comments = {};
+      rows.forEach(([ts,date,name,takeaway,comment]) => {
+        if(!comment || !comment.trim()) return;
+        const key = normDate(date);
+        (comments[key] = comments[key] || []).push({ when: ts ? fmt(ts.slice(0,10)) : "", name: name || "Guide", takeaway, comment });
+      });
+      commentsState = "ok";
+    }catch(err){ commentsState = "error"; }
+    if(log.length){ $("latest").innerHTML = entryHTML(log[0]); showDay(cur, false); }
+  }
+
   // Log
-  const block = (arr, label, c) => arr && arr.length
-    ? `<div class="blk"><span class="tag ${c}">${label}</span><ul class="clean">${li(arr)}</ul></div>` : "";
+  const block = (arr, label, c, ordered) => arr && arr.length
+    ? `<div class="blk"><span class="tag ${c}">${label}</span><${ordered?"ol":"ul"} class="clean">${li(arr)}</${ordered?"ol":"ul"}></div>` : "";
   const entryHTML = e => `
     <p class="date">${esc(fmtLong(e.date))}</p>
     <h3>${esc(e.headline || "")}</h3>
     ${block(e.did,"Worked on","t-did")}
-    ${block(e.takeaways,"Takeaways","t-take")}
+    ${block(e.takeaways,"Takeaways","t-take",true)}
     ${block(e.decided,"Decided","t-dec")}
     ${block(e.next,"Next","t-next")}
-    ${block(e.blockers,"Waiting on","t-blk")}`;
+    ${block(e.blockers,"Waiting on","t-blk")}
+    ${commentsHTML(e.date)}`;
   // Single-day view: log is newest first, so index 0 = latest
   let cur = 0, calY, calM;
   const byDate = Object.fromEntries(log.map((e,i) => [e.date, i]));
@@ -264,7 +325,7 @@
     for(let d=1; d<=days; d++){
       const key = `${calY}-${pad(calM+1)}-${pad(d)}`;
       g += key in byDate
-        ? `<button data-date="${key}" class="${log[cur] && log[cur].date===key ? "sel":""}" aria-label="${esc(fmtLong(key))}">${d}</button>`
+        ? `<button data-date="${key}" class="${log[cur] && log[cur].date===key ? "sel":""}${comments[key] ? " hasc":""}" aria-label="${esc(fmtLong(key))}">${d}</button>`
         : `<span class="d">${d}</span>`;
     }
     $("calGrid").innerHTML = g;
@@ -292,6 +353,7 @@
     if(ev.key === "ArrowRight" && !$("nextBtn").disabled) showDay(cur-1, true);
   });
   showDay(0, false);
+  loadComments();
   if(log.length) $("latest").innerHTML = entryHTML(log[0]); else $("latestCard").hidden = true;
 
   // Documents

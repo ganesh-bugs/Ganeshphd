@@ -23,6 +23,16 @@ const SITE = {
 };
 
 // ---------------------------------------------------------------------
+//  GUIDE COMMENTS — Google Form (IIM Trichy accounts only) feeding a
+//  published sheet tab ("Public": timestamp, date, name, takeaway, comment).
+// ---------------------------------------------------------------------
+const COMMENTS = {
+  formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSf1akEo_yOVd0OTKbpx2Bp9Kp6V2djM0ZhAa0U4KkLph3rRuA/viewform",
+  dateField: "entry.1572104462",
+  csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnKCrw06siqsvoVloQo1ebDDeUnQJ3ckcpBb-Wl3PdjUTxfb-yOpDqp9gSgT3-j0M2hOOgrJiEFj8p/pub?gid=1632644063&single=true&output=csv"
+};
+
+// ---------------------------------------------------------------------
 //  DAILY LOG — newest first. Date format: "YYYY-MM-DD".
 //  Fields: headline, did, takeaways, decided, next, blockers (all lists)
 // ---------------------------------------------------------------------
