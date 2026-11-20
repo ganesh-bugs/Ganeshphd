@@ -185,7 +185,7 @@
             <button class="calnav" id="calNext" aria-label="Next month">&rsaquo;</button>
           </div>
           <div class="calgrid" id="calGrid"></div>
-          <p class="calnote">Highlighted dates have an entry · orange underline = guide comments</p>
+          <p class="calnote">Highlighted dates have an entry · orange underline = comments / questions</p>
         </div>
       </div>
       <button class="navbtn" id="nextBtn" aria-label="Next day">Next &rarr;</button>
@@ -275,17 +275,17 @@
     const list = comments[date] || [];
     const link = `${COMMENTS.formUrl}?usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
     const embed = `${COMMENTS.formUrl}?embedded=true&usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
-    const body = commentsState === "loading" ? `<p class="muted">Loading comments…</p>`
-      : commentsState === "error" ? `<p class="muted">Comments could not be loaded right now.</p>`
+    const body = commentsState === "loading" ? `<p class="muted">Loading comments and questions…</p>`
+      : commentsState === "error" ? `<p class="muted">Comments and questions could not be loaded right now.</p>`
       : list.length ? list.map(c => `<div class="cmt"><p class="who">${esc(c.name)}${c.takeaway ? ` <span>· on ${esc(c.takeaway)}</span>` : ""}${c.when ? ` <span>· ${esc(c.when)}</span>` : ""}</p><p class="body">${esc(c.comment)}</p>${c.reply ? `<div class="reply"><p class="who">Ganesh's reply</p><p class="body">${esc(c.reply)}</p></div>` : ""}</div>`).join("")
-      : `<p class="muted">No comments yet.</p>`;
-    return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span></div>${body}
+      : `<p class="muted">No comments or questions yet.</p>`;
+    return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments / questions</span></div>${body}
       <details class="addc" data-embed="${esc(embed)}">
-        <summary class="btn">Add a comment</summary>
+        <summary class="btn">Add a comment or question</summary>
         <p class="muted small">Sign in with your IIM Trichy account. If asked, click <strong>Allow cookies</strong>.
           Form not loading? <a href="${esc(link)}" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
-        <p class="note small"><strong>After submitting:</strong> your comment takes a few minutes to appear.
-          <strong>Refresh this page</strong> to see it — please don't submit the same comment again.</p>
+        <p class="note small"><strong>After submitting:</strong> your comment or question takes a few minutes to appear.
+          <strong>Refresh this page</strong> to see it — please don't submit it again.</p>
         <div class="formwrap"></div>
       </details></div>`;
   }
@@ -377,7 +377,7 @@
     const w = d.querySelector(".formwrap");
     if(!w.firstChild){
       const f = document.createElement("iframe");
-      f.src = d.dataset.embed; f.title = "Comment form"; f.loading = "lazy";
+      f.src = d.dataset.embed; f.title = "Comment or question form"; f.loading = "lazy";
       w.appendChild(f);
     }
   }, true);
