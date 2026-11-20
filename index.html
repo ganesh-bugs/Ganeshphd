@@ -88,6 +88,12 @@
   .cmt .who span{font-weight:400;color:var(--muted)}
   .cmt p.body{margin:.3rem 0 0;white-space:pre-wrap}
   .cmtbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .addc{margin-top:1rem}
+  .addc summary{list-style:none;display:inline-block;cursor:pointer}
+  .addc summary::-webkit-details-marker{display:none}
+  .addc[open] summary{background:var(--accent);color:#fff}
+  .small{font-size:.82rem;margin:.6rem 0}
+  .formwrap iframe{width:100%;height:1050px;border:1px solid var(--line);border-radius:8px;background:#fff}
   .calgrid button.hasc{box-shadow:inset 0 -3px 0 #e07a3f}
 
   /* Tables */
@@ -265,12 +271,18 @@
     if(typeof COMMENTS === "undefined") return "";
     const list = comments[date] || [];
     const link = `${COMMENTS.formUrl}?usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
+    const embed = `${COMMENTS.formUrl}?embedded=true&usp=pp_url&${COMMENTS.dateField}=${encodeURIComponent(date)}`;
     const body = commentsState === "loading" ? `<p class="muted">Loading comments…</p>`
       : commentsState === "error" ? `<p class="muted">Comments could not be loaded right now.</p>`
       : list.length ? list.map(c => `<div class="cmt"><p class="who">${esc(c.name)}${c.takeaway ? ` <span>· on ${esc(c.takeaway)}</span>` : ""}${c.when ? ` <span>· ${esc(c.when)}</span>` : ""}</p><p class="body">${esc(c.comment)}</p></div>`).join("")
       : `<p class="muted">No comments yet.</p>`;
-    return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span>
-      <a class="btn" href="${esc(link)}" target="_blank" rel="noopener">Comment on this day</a></div>${body}</div>`;
+    return `<div class="comments"><div class="cmtbar"><span class="tag t-gc">Guide comments</span></div>${body}
+      <details class="addc" data-embed="${esc(embed)}">
+        <summary class="btn">Add a comment</summary>
+        <p class="muted small">Sign in with your IIM Trichy account. Your comment appears here within a few minutes of submitting.
+          Form not loading? <a href="${esc(link)}" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
+        <div class="formwrap"></div>
+      </details></div>`;
   }
   async function loadComments(){
     if(typeof COMMENTS === "undefined") return;
@@ -354,6 +366,16 @@
   });
   showDay(0, false);
   loadComments();
+  document.addEventListener("toggle", ev => {
+    const d = ev.target;
+    if(!(d instanceof HTMLDetailsElement) || !d.classList.contains("addc") || !d.open) return;
+    const w = d.querySelector(".formwrap");
+    if(!w.firstChild){
+      const f = document.createElement("iframe");
+      f.src = d.dataset.embed; f.title = "Comment form"; f.loading = "lazy";
+      w.appendChild(f);
+    }
+  }, true);
   if(log.length) $("latest").innerHTML = entryHTML(log[0]); else $("latestCard").hidden = true;
 
   // Documents
